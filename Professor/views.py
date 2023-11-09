@@ -15,7 +15,6 @@ from Student.forms import StudentForm
 # Create your views here.
 def departments(request):
     superuser=request.user.is_superuser
-    departments=Department.objects.all()
     context={'departments':departments,'superuser':superuser}
     return render(request,'departments.html',context)
 
@@ -147,7 +146,7 @@ def SignUp(request):
                 )
             messages.success(request, 'User was created successfully! Update Your Profile')
             login(request,user)
-            return redirect('professors') ##must change to update profile
+            return redirect('professors')
         else:
             messages.error(request, 'Error! User already exists or Passwords does not match!')
     page='register'
