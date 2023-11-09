@@ -1,0 +1,67 @@
+
+{% extends 'main.html' %}
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center" style="margin-top: 50px;">
+    <div class="col-md-8">
+      <div class="card-body">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th colspan="6" style="text-align: left;">
+                <h2 style="font-size: 24px; margin: 0; display: inline;">Your Appointments</h2>
+                
+              </th>
+            </tr>
+            <tr>      
+                <th scope="col">Date</th>
+                <th scope="col">Day</th>
+                <th scope="col">Time</th>
+                {%if is_student %}
+                <th scope="col">Professor</th>
+                {%else%}
+                <th scope="col">Student</th>
+                {%endif%}
+                <th scope="col">Status</th>
+                {%if is_student %}
+                <th scope="col">Actions</th>
+                {%endif%}
+              </tr>
+          </thead>
+          <tbody>
+            {%for appointment in appointments%}
+            <tr>
+                <td>{{appointment.Date}}</td>
+                <td>{{appointment.Day}}</td>
+                <td>{{appointment.Time}}</td>
+               
+                {%if is_student %}
+                <td>{{appointment.Professor}}</td>
+                {%else%}
+                <td>{{appointment.Student}}</td>
+                {%endif%}
+                <td>
+                    {% if appointment.Confirmed %}
+                    <span style="color: green; font-weight: bold;">Confirmed</span>
+                    {% else %}
+                        Available
+                    {% endif %}
+                </td> 
+                <td>
+                  {%if is_student %}
+                <a href="{%url 'cancelappointment' appointment.AppointmentId%}">
+                  <button class="btn btn-sm" style="background-color: #6c0434; color: white;">Cancel</button>
+              </a>
+                {%endif%}
+                </td>
+                
+                
+            </tr>
+            {%endfor%}  
+        </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

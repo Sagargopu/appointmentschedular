@@ -1,0 +1,63 @@
+{%extends 'main.html'%}
+{%block content%}
+{%if page == 'register' %}
+<br/>
+<div class="col-md-3 offset-md-3">
+  <h2> User Registration </h2>
+  <div class="d-flex justify-content-center align-items-center vh-90">
+    <div class="form-group">
+      
+      <form method="POST" class="my-4">
+          {% csrf_token %}
+          <div class="mb-3">
+              {{ form.username.label_tag }}
+              {{ form.username }}
+          </div>
+          <div class="mb-3">
+              {{ form.first_name.label_tag }}
+              {{ form.first_name }}
+          </div>
+          <div class="mb-3">
+              {{ form.last_name.label_tag }}
+              {{ form.last_name }}
+          </div>
+          <div class="mb-3">
+              {{ form.email.label_tag }}
+              {{ form.email }}
+          </div>
+          <div class="mb-3">
+              {{ form.password1.label_tag }}
+              <input type="password" class="form-control" name="{{ form.password1.html_name }}">
+          </div>
+          <div class="mb-3">
+              {{ form.password2.label_tag }}
+              <input type="password" class="form-control" name="{{ form.password2.html_name }}">
+          </div>
+          <div class="mb-3">
+              {{ form.user_role.label_tag }}
+              {{ form.user_role }}
+          </div>
+          <button type="submit" class="btn btn-outline-dark btn-sm">Submit</button>
+      </form>     
+      
+    </div>
+  </div>
+</div>
+
+{% else %}
+<form method="POST" action="{%url 'login' %}">
+  {%csrf_token%}
+      <br/>
+      <div class="col-md-3 offset-md-3">
+        <h2>Login</h2>
+        <br/>
+        <input type="text" class="form-control" name="Username" placeholder="Global ID", required/>
+        <br/>
+        <input type="password" class="form-control" name="Password" placeholder="Password",required/>
+        <br/>
+        <input type="submit" class="btn btn-dark btn-sm" value="Login">
+      </div>
+      <br/>
+</form> 
+{% endif %}  
+{%endblock content%}
