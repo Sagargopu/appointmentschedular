@@ -77,35 +77,25 @@ WSGI_APPLICATION = 'AppointmentSchedular.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Group6',
-        'USER' : 'postgres',
-        'PASSWORD' : 'admin1234',
-        'HOST' : 'localhost',
-        'PORT': '5432'
-
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql', 
-#         'NAME': 'AppointmentSchedular',
-#         'USER': 'f2023bis698tcg6',
-#         'PASSWORD': 'team6',
-#         'HOST': '141.209.241.88',
-#         'PORT': '3306',  # This is optional, and you might not need to specify a port depending on the database configuration
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'Group6',
+#         'USER' : 'postgres',
+#         'PASSWORD' : 'admin1234',
+#         'HOST' : 'localhost',
+#         'PORT': '5432'
+
 #     }
 # }
+
 
 
 # Password validation
