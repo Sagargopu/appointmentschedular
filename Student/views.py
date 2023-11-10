@@ -3,11 +3,14 @@ from .models import *
 from django.contrib import messages
 from Professor.models import *
 # Create your views here.
+from django.contrib.auth.decorators import login_required
+@login_required(login_url='login')
 def Students(request):
     students=Student.objects.all()
     context={'students':students}
     return render(request,'students/students.html',context)
 
+@login_required(login_url='login')
 def Profile(request):
     user=User.objects.get(username=request.user)
     if Student.objects.filter(user=user).exists():
@@ -22,6 +25,7 @@ def Profile(request):
         context={'profile':profile,'role':role,'officehours':officehours}
         return render(request,'profile.html',context)
     
+@login_required(login_url='login')
 def ViewAppointments(request,pk):
     user=User.objects.get(username=pk)
     professor=Professor.objects.get(user=user)
@@ -31,6 +35,7 @@ def ViewAppointments(request,pk):
     context={'appointments':appointments,'professor':professor}
     return render(request,'students/viewappointments.html',context)
 
+@login_required(login_url='login')
 def BookAppointment(request,pk):
     student=Student.objects.get(user=request.user)
     appointment=Appointment.objects.get(AppointmentId=pk)
@@ -42,6 +47,7 @@ def BookAppointment(request,pk):
         appointment.save()
     return redirect('myappointments')
 
+@login_required(login_url='login')
 def CancelAppointment(request,pk):
     appointment=Appointment.objects.get(AppointmentId=pk)
     print(appointment.Date)

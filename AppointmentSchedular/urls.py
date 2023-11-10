@@ -16,8 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-
+from Professor.views import MyAppointments
 urlpatterns = [
+    path('',MyAppointments),
     path('admin/', admin.site.urls),
     path('',include('Professor.urls')),
     path('',include('Student.urls')),

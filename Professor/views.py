@@ -11,18 +11,22 @@ from datetime import date
 from datetime import datetime
 from .forms import *
 from Student.forms import StudentForm
+from django.contrib.auth.decorators import login_required,user_passes_test
 
 # Create your views here.
+@login_required(login_url='login')
 def departments(request):
     superuser=request.user.is_superuser
     context={'departments':departments,'superuser':superuser}
     return render(request,'departments.html',context)
 
+@login_required(login_url='login')
 def Professors(request):
     Professors=Professor.objects.all()
     context={'Professors':Professors}
     return render(request,'professors.html',context)
 
+@login_required(login_url='login')
 def MySchedule(request):
     professor=Professor.objects.get(user=request.user)
     current_date = date.today()
@@ -31,6 +35,7 @@ def MySchedule(request):
     context={'appointments':appointments}
     return render(request,'professors/myschedule.html',context)
 
+@login_required(login_url='login')
 def MyAppointments(request):
     user = request.user
     if Student.objects.filter(user=user).exists():
@@ -49,6 +54,7 @@ def MyAppointments(request):
             context={'appointments':appointments}
             return render(request,'professors/myappointments.html',context)
 
+@login_required(login_url='login')
 def Refresh(request):
     professor = Professor.objects.get(user=request.user)
     Hours = OfficeHours.objects.filter(Professor=professor)
@@ -112,6 +118,7 @@ def LoginUser(request):
         return render(request,'login.html')
 
 # logout user
+@login_required(login_url='login')
 def LogoutUser(request):
     if request.user.is_authenticated:
         logout(request)
@@ -153,6 +160,7 @@ def SignUp(request):
     context={'page':page,'form':form}
     return render(request,'login.html',context)
 
+@login_required(login_url='login')
 def updateProfile(request):
     profile = request.user
     if Student.objects.filter(user=profile).exists():
@@ -176,7 +184,7 @@ def updateProfile(request):
     return render(request, 'updateprofile.html', context)
 
 
-
+@login_required(login_url='login')
 def ViewOfficeHours(request):
     professor=Professor.objects.get(user=request.user)
     officehours=OfficeHours.objects.filter(Professor=professor)
@@ -186,6 +194,7 @@ def ViewOfficeHours(request):
     context={'officehours':officehours,'office':office}
     return render(request,'professors/officehours.html',context)
 
+@login_required(login_url='login')
 def AddOfficeHours(request):
     professor=Professor.objects.get(user=request.user)
     if request.method == 'POST':
@@ -212,6 +221,7 @@ def AddOfficeHours(request):
         form = OfficeHoursForm()
     return render(request, 'professors/addofficehours.html', {'form': form})
 
+@login_required(login_url='login')
 def DeleteOfficeHours(request,id):
     officehours=OfficeHours.objects.get(id=id)
     officehours.delete()
