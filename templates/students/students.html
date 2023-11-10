@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+{% block content%}
+<table class="table table-hover">
+    <thead>
+      <tr>      
+        <th scope="col">Professor</th>
+        <th scope="col">Department</th>
+        <th scope="col">Email</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Profile</th>
+      </tr>
+    </thead>
+    <tbody>
+        {%for student in students%}
+        <tr>
+            <td>{{student.Last_Name}}, {{student.First_Name}}</td>
+            <td>{{student.Department_id}}</td>
+            <td>{{student.Email}}</td>
+            <td>{{student.Phone}}</td>
+            <td>
+              <button class="btn btn-sm" style="background-color: #6c0434; color: white;">View</button>
+            </td>           
+        </tr>
+        {%endfor%}  
+    </tbody>
+</table>
+{% endblock content%}
+<h1>This is the list of all courses</h1>

@@ -1,0 +1,138 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<style>
+    h2 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    input[type="submit"] {
+        background-color: #6c0434;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #54032a;
+    }
+
+    form {
+        margin-top: 20px;
+    }
+
+    .row {
+        margin-bottom: 20px;
+    }
+
+    .col-md-5 input {
+        width: 100%;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ced4da;
+    }
+
+    .vh-90 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 90vh;
+    }
+
+    .form-container {
+        width: 40%;
+    }
+</style>
+{%if is_professor %}
+<div class="vh-90">
+    <div class="form-container">
+        <h2>Update Profile</h2>
+
+        <form method="POST" class="row g-3">
+            {% csrf_token %}
+            <div class="col-md-5">
+                {{ form.First_Name.label_tag }}
+                {{ form.First_Name }}
+            </div>
+            <div class="col-md-5">
+                {{ form.Last_Name.label_tag }}
+                {{ form.Last_Name }}
+            </div>
+            <div class="col-md-5">
+                {{ form.Department_id.label_tag }}
+                {{ form.Department_id }}
+            </div>
+            <div class="col-md-5">
+                {{ form.Phone.label_tag }}
+                {{ form.Phone }}
+            </div>
+            <div class="col-md-5">
+                {{ form.Email.label_tag }}
+                {{ form.Email }}
+            </div>
+            <div class="col-md-5">
+                {{ form.Office.label_tag }}
+                {{ form.Office }}
+            </div>
+            <div class="col-10 text-center">
+                <input type="submit" class="btn btn-sm" value="Save" style="margin-top: 20px;"/>
+            </div>
+        </form>
+    </div>
+</div>
+{%endif%}
+{%if is_student %}
+<div class="vh-90">
+    <div class="form-container">
+        <h2>Update Profile</h2>
+        <form method="POST" class="row g-3">
+            {% csrf_token %}
+            <div class="col-md-4">
+                {{ form.First_Name.label_tag }}
+                {{ form.First_Name }}
+            </div>
+            <div class="col-md-4">
+                {{ form.Last_Name.label_tag }}
+                {{ form.Last_Name }}
+            </div>
+            <div class="col-md-4">
+                {{ form.Department_id.label_tag }}
+                {{ form.Department_id }}
+            </div>
+            <div class="col-md-4">
+                {{ form.Phone.label_tag }}
+                {{ form.Phone }}
+            </div>
+            <div class="col-md-4">
+                {{ form.Email.label_tag }}
+                {{ form.Email }}
+            </div>
+            <div class="col-md-4">
+                {{ form.Address.label_tag }}
+                {{ form.Address }}
+            </div>
+            <div class="col-md-4">
+                {{ form.City.label_tag }}
+                {{ form.City }}
+            </div>
+            <div class="col-md-4">
+                {{ form.State.label_tag }}
+                {{ form.State }}
+            </div>
+            <div class="col-md-4">
+                {{ form.Zipcode.label_tag }}
+                {{ form.Zipcode }}
+            </div>
+            <div class="col-12 text-center">
+                <input type="submit" class="btn btn-sm" value="Save" style="margin-top: 20px;" />
+            </div>
+        </form>
+    </div>
+</div>
+
+{%endif%}
+{% endblock content %}

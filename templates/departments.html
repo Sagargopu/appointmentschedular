@@ -1,0 +1,33 @@
+{% extends 'main.html' %}
+{%block content%}
+<table class="table table-hover">
+    <thead>
+      <tr>     
+        <th scope="col">Department Code</th>
+        <th scope="col">Department Name</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for department in departments %}
+        <tr>
+          
+            <td>{{department.Department_Code}}</td>
+            <td>{{department.Department_Name}}</td> 
+            <td>
+              {%if superuser%}
+              <a href="" class="btn btn-outline-dark btn-sm">View</a>
+              <a href="" class="btn btn-outline-dark btn-sm">Update</a>
+              <a href="" class="btn btn-outline-danger btn-sm">Delete</a>
+              {%else%}
+              <a href="" class="btn btn-outline-dark btn-sm">View</a>
+              {%endif%}
+            </td>       
+        </tr>
+        {%endfor%}  
+    </tbody>
+</table>
+<a href="">
+  <button type="button" class="btn btn-outline-dark btn-sm">Create</button>
+</a>
+{%endblock content%}
