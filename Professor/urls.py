@@ -12,7 +12,6 @@ urlpatterns = [
     path('myappointments/',views.MyAppointments,name='myappointments'),
     path('addappointments/',views.Refresh,name='addappointments'),
     path('addofficehours/',views.AddOfficeHours,name='addofficehours'),
-    path('deleteofficehours/<str:id>',views.DeleteOfficeHours,name='deleteofficehours'),
     path('updateprofile/',views.updateProfile,name='updateprofile'),
     
 ]

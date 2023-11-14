@@ -42,8 +42,6 @@ def MyAppointments(request):
             student=Student.objects.get(user=request.user)
             appointments=Appointment.objects.filter(Student=student)
             context={'appointments':appointments}
-            for rec in appointments:
-                print(rec.Professor)
             return render(request,'professors/myappointments.html',context)
     else:
             is_professor = True
@@ -66,7 +64,6 @@ def Refresh(request):
         slots = hour.generate_time_slots()
         day = hour.Day
         date = hour.next_occurrence_of_weekday(day)
-        print(date)
         for slot in slots:
                 if not Appointment.objects.filter(Professor=professor, Date=date, Day=day,Time=slot).exists():
                     appointment = Appointment.objects.create(
@@ -153,7 +150,7 @@ def SignUp(request):
                 )
             messages.success(request, 'User was created successfully! Update Your Profile')
             login(request,user)
-            return redirect('professors')
+            return redirect('updateprofile')
         else:
             messages.error(request, 'Error! User already exists or Passwords does not match!')
     page='register'
@@ -189,8 +186,6 @@ def ViewOfficeHours(request):
     professor=Professor.objects.get(user=request.user)
     officehours=OfficeHours.objects.filter(Professor=professor)
     office=professor.Office
-    for rec in officehours:
-        print(rec.id)
     context={'officehours':officehours,'office':office}
     return render(request,'professors/officehours.html',context)
 
@@ -221,8 +216,4 @@ def AddOfficeHours(request):
         form = OfficeHoursForm()
     return render(request, 'professors/addofficehours.html', {'form': form})
 
-@login_required(login_url='login')
-def DeleteOfficeHours(request,id):
-    officehours=OfficeHours.objects.get(id=id)
-    officehours.delete()
-    return redirect('addappointments')
+

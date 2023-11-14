@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from Student.models import Department,Student
 from datetime import datetime, timedelta
 from django.utils import timezone
-# Create your models here.
+
 class Professor(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
     First_Name=models.CharField(max_length=100,null=True,blank=True)
@@ -62,12 +62,10 @@ class OfficeHours(models.Model):
         target_day_index = weekdays_short.index(target_day_short.title()[:3])
         current_date = timezone.now()
         current_weekday = current_date.weekday()
-
         if target_day_index >= current_weekday:
             days_ahead = target_day_index - current_weekday
         else:
             days_ahead = 7 - current_weekday + target_day_index
-
         next_date = current_date + timedelta(days=days_ahead)
         return next_date.strftime("%Y-%m-%d")
     
