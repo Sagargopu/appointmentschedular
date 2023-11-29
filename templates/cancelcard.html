@@ -1,0 +1,58 @@
+{% extends 'main.html' %}
+{% block content %}
+<style>
+    .table-header {
+        background-color: #6c0434;
+        color: white;
+    }
+    .confirm-button {
+        background-color: #6c0434;
+        color: white;
+        border-color: #6c0434;
+    }
+    .confirm-button:hover {
+        background-color: #52032a;
+        border-color: #52032a;
+        color: white;
+    }
+</style>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <table class="table table-bordered">
+                <thead class="table-header">
+                    <tr>
+                        <th class="text-center" colspan="2">Cancel Appointment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Professor:</td>
+                        <td>{{ appointment.Professor }}</td>
+                    </tr>
+                    <tr>
+                        <td>Date:</td>
+                        <td>{{ appointment.Date }}</td>
+                    </tr>
+                    <tr>
+                        <td>Time:</td>
+                        <td>{{ appointment.Time }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="d-flex justify-content-center">
+                                <a href="{% url 'myappointments' %}">
+                                    <button type="btn btn-sm" class="btn btn-outline-danger me-2">Go Back</button>
+                                </a>
+                                <a href="{% url 'cancelappointment' appointment.AppointmentId %}">
+                                    <button type="btn btn-sm" class="btn confirm-button">Confirm</button>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}

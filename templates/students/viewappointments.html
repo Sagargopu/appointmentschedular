@@ -41,9 +41,12 @@
                             <button class="btn btn-sm" style="background-color: #6c0434; color: white;" disabled>Select</button>
                         </a>
                     {% else %}
-                        <a href="{%url 'bookappointment' appointment.AppointmentId%}">
+                        <!-- <a href="{%url 'bookappointment' appointment.AppointmentId%}">
                             <button class="btn btn-sm" style="background-color: #6c0434; color: white;">Select</button>
-                        </a>
+                        </a> -->
+                        <a href="{%url 'confirmcard' appointment.AppointmentId%}">
+                          <button class="btn btn-sm" style="background-color: #6c0434; color: white;">Select</button>
+                      </a>
                     {% endif %}
                 </td>
             </tr>

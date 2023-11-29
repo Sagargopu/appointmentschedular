@@ -39,6 +39,16 @@ def ViewAppointments(request,pk):
     context={'appointments':appointments,'professor':professor}
     return render(request,'students/viewappointments.html',context)
 
+def ConfirmCard(request,id):
+    appointment=Appointment.objects.get(AppointmentId=id)
+    context={'appointment':appointment}
+    return render(request, 'confirmationcard.html',context)
+
+def CancelCard(request,id):
+    appointment=Appointment.objects.get(AppointmentId=id)
+    context={'appointment':appointment}
+    return render(request, 'cancelcard.html',context)
+
 @login_required(login_url='login')
 def BookAppointment(request,pk):
     student=Student.objects.get(user=request.user)
