@@ -4,6 +4,8 @@ from django.contrib import messages
 from Professor.models import *
 from django.core.mail import send_mail
 from django.conf import settings
+from datetime import date
+from django.utils import timezone
 # Create your views here.
 from django.contrib.auth.decorators import login_required
 @login_required(login_url='login')
@@ -31,7 +33,9 @@ def Profile(request):
 def ViewAppointments(request,pk):
     user=User.objects.get(username=pk)
     professor=Professor.objects.get(user=user)
-    appointments=Appointment.objects.filter(Professor=professor)
+    current_date = date.today()
+    current_time = datetime.now()
+    appointments=Appointment.objects.filter(Professor=professor,Date__gte=current_date).exclude(Date=current_date, Time__lt=current_time)
     context={'appointments':appointments,'professor':professor}
     return render(request,'students/viewappointments.html',context)
 

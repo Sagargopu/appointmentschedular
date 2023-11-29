@@ -58,18 +58,14 @@ class OfficeHours(models.Model):
         return time_slots
     
     def next_occurrence_of_weekday(cls, target_day_short):
-        weekdays_short = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        target_day_index = weekdays_short.index(target_day_short.title()[:3])
-        current_date = timezone.now()
-        current_weekday = current_date.weekday()
+            weekdays_short = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            target_day_index = weekdays_short.index(target_day_short.title()[:3])
+            current_date = timezone.now()
+            current_weekday = current_date.weekday()
 
-        if target_day_index >= current_weekday:
-            days_ahead = target_day_index - current_weekday
-        else:
-            days_ahead = 7 - current_weekday + target_day_index
-
-        next_date = current_date + timedelta(days=days_ahead)
-        return next_date.strftime("%Y-%m-%d")
+            days_ahead = (target_day_index - current_weekday) % 7
+            next_date = current_date + timedelta(days=days_ahead)
+            return next_date.strftime("%Y-%m-%d")
     
 class Appointment(models.Model):
     AppointmentId=models.UUIDField(default=uuid.uuid4,unique=True,primary_key=True,blank=False,null=False,editable=False)

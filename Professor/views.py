@@ -10,6 +10,8 @@ from Student.models import Student
 from datetime import date
 from datetime import datetime
 from .forms import *
+from datetime import timedelta
+import pytz
 from Student.forms import StudentForm
 from django.contrib.auth.decorators import login_required,user_passes_test
 
@@ -40,7 +42,9 @@ def MyAppointments(request):
     user = request.user
     if Student.objects.filter(user=user).exists():
             student=Student.objects.get(user=request.user)
-            appointments=Appointment.objects.filter(Student=student)
+            current_date = date.today()
+            current_time = datetime.now()
+            appointments=Appointment.objects.filter(Student=student,Date__gte=current_date,Confirmed=True).exclude(Date=current_date, Time__lt=current_time)
             context={'appointments':appointments}
             for rec in appointments:
                 print(rec.Professor)
@@ -54,33 +58,49 @@ def MyAppointments(request):
             context={'appointments':appointments}
             return render(request,'professors/myappointments.html',context)
 
+
+
 @login_required(login_url='login')
 def Refresh(request):
     professor = Professor.objects.get(user=request.user)
     Hours = OfficeHours.objects.filter(Professor=professor)
-    changes=0
-    emptyAppointments=Appointment.objects.filter(Professor=professor,Confirmed=False)
+    emptyAppointments = Appointment.objects.filter(Professor=professor, Confirmed=False)
+    
+    # Convert UTC now to EST
+    est = pytz.timezone('America/New_York')  # Replace with the appropriate timezone
+    current_time_utc = timezone.now()
+    current_time_est = current_time_utc.astimezone(est)
+    current_date_est = current_time_est.date()
+    day_of_week_est = current_date_est.weekday()
+
     for emptyAppointment in emptyAppointments:
         emptyAppointment.delete()
+        
     for hour in Hours:
         slots = hour.generate_time_slots()
         day = hour.Day
-        date = hour.next_occurrence_of_weekday(day)
-        print(date)
+        
+        # Calculate the next occurrence of the day in EST
+        target_day_index = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].index(day)
+        if day_of_week_est > target_day_index:
+            days_ahead = 7 - day_of_week_est + target_day_index
+        else:
+            days_ahead = target_day_index - day_of_week_est
+        
+        next_date_est = current_date_est + timedelta(days=days_ahead)
+        
         for slot in slots:
-                if not Appointment.objects.filter(Professor=professor, Date=date, Day=day,Time=slot).exists():
-                    appointment = Appointment.objects.create(
-                        Professor=professor,
-                        Date=date,
-                        Day=day,
-                        Time=slot,
-                        Student=None,
-                        Confirmed=False
-                    )
-
-                    appointment.save()
-                    changes+=1       
-                        
+            if not Appointment.objects.filter(Professor=professor, Date=next_date_est, Day=day, Time=slot).exists():
+                appointment = Appointment.objects.create(
+                    Professor=professor,
+                    Date=next_date_est,
+                    Day=day,
+                    Time=slot,
+                    Student=None,
+                    Confirmed=False
+                )
+                appointment.save()
+                
     messages.success(request, 'Schedule Published Successfully!')
     return redirect('myschedule')
 
