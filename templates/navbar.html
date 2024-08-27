@@ -1,5 +1,15 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: #6c0434 !important;">
-  <a class="navbar-brand" href="#">Appointment Scheduler</a>
+{% if request.user.is_authenticated %}
+    {% if is_professor %}
+        <a class="navbar-brand" href="{% url 'officehours' %}">Appointment Scheduler</a>
+    {% else %}
+        <a class="navbar-brand" href="{% url 'professors' %}">Appointment Scheduler</a>
+    {% endif %}
+{% else %}
+    <a class="navbar-brand" href="{% url 'login' %}">Appointment Scheduler</a>
+{% endif %}
+
+  
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
   </button>
@@ -7,9 +17,6 @@
   {%if is_student %}
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-              <a class="nav-link" href="{%url 'students'%}">Students</a>
-          </li>
           <li class="nav-item">
               <a class="nav-link" href="{%url 'professors'%}">Professors</a>
           </li>
@@ -65,7 +72,11 @@
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav ms-auto">
         <li class="nav-item">
+          {% if request.path == '/login/' %}
             <a class="nav-link" href="{%url 'signup'%}">Sign Up</a>
+          {%elif request.path == '/signup/' %}
+            <a class="nav-link" href="{%url 'login'%}">Login</a>
+          {%endif%}
         </li>
     </ul>
 </div>

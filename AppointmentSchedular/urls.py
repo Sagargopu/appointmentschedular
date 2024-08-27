@@ -23,3 +23,5 @@ urlpatterns = [
     path('',include('Professor.urls')),
     path('',include('Student.urls')),
 ]
+
+admin.site.site_header="Appointment Schedular Admin"
